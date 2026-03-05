@@ -1,4 +1,4 @@
-#include "shell.c"
+#include "bsh.h"
 
 /**
  * Execute the commands by first identifying if it's a built-in command or not.

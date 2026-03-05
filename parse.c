@@ -1,4 +1,4 @@
-#include "shell.c"
+#include "bsh.h"
 
 /**
  * Parse the command into an array of strings, and set redirection if there is one.

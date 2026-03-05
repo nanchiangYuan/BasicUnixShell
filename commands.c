@@ -1,4 +1,4 @@
-#include "shell.c"
+#include "bsh.h"
 
 /**
  * Change the current directory.
