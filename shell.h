@@ -1,3 +1,13 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <fcntl.h>
+
 // some max values
 #define MAXLENGTH 256
 #define MAXARGS 128
@@ -41,18 +51,18 @@ int vars(int argc, char *argv[]);
 int history(int argc, char *argv[]);
 int ls(int argc, char *argv[]);
 
+// command helper
+void addHistory(char *command);
+void freeStructMem();
+
 // parse
 int parseCommand(char** result, char* input);
 void findVar(char *str);
 
 // execute
 int executeCommands(int argc, char** command);
-
 int launchNewProcess(char* path, char *argv[]);
-void addHistory(char *command);
 int redirect();
-
-void freeStructMem();
 
 // built-in commands, for comparing with input
 // exit does not ha
