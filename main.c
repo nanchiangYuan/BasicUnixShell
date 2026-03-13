@@ -106,8 +106,8 @@ int main(int argc, char* argv[]) {
         
         if(interactiveMode) {
 
-            printf("wsh> ");
-            // flush output buffer to make sure "wsh> " gets printed
+            printf("bsh> ");
+            // flush output buffer to make sure "bsh> " gets printed
             fflush(stdout);
 
             if(fgets(input, MAXLENGTH, stdin) == NULL) {

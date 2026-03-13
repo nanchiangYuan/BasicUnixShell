@@ -1,3 +1,6 @@
+#ifndef BSH_H
+#define BSH_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -65,25 +68,25 @@ int launchNewProcess(char* path, char *argv[]);
 int redirect();
 
 // built-in commands, for comparing with input
-// exit does not ha
-char *builtInCommands[] = {
-    "cd",
-    "export",
-    "local",
-    "vars",
-    "history",
-    "ls",
-    "exit"
-};
+// defined in execute.c
+extern char *builtInCommands[];
+
 // array size of built-in commands
-int builtInCount = 7;
+// defined in execute.c
+extern int builtInCount;
 
 // function pointer for built-in commands
-int (*builtInCommandFunc[])(int argc, char *argv[]) = {
-    [0] = cd,
-    [1] = export,
-    [2] = local,
-    [3] = vars,
-    [4] = history,
-    [5] = ls
-};
+// defined in execute.c
+extern int (*builtInCommandFunc[])(int argc, char *argv[]);
+
+// history of commands
+extern struct commandHistory* his;
+
+// stores shell variables as a linked list
+extern struct shellVariable* shellVarRoot;
+
+// redirection info for the current command
+// if mode = -1, no redirection on current command
+extern struct redirInfo *redirInfoPtr;
+
+#endif

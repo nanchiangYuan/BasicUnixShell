@@ -1,5 +1,26 @@
 #include "bsh.h"
 
+char *builtInCommands[] = {
+    "cd",
+    "export",
+    "local",
+    "vars",
+    "history",
+    "ls",
+    "exit"
+};
+
+int builtInCount = 7;
+
+int (*builtInCommandFunc[])(int argc, char *argv[]) = {
+    [0] = cd,
+    [1] = export,
+    [2] = local,
+    [3] = vars,
+    [4] = history,
+    [5] = ls
+};
+
 /**
  * Execute the commands by first identifying if it's a built-in command or not.
  * Return -2: failed non-built-in commmands
