@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     else if(argc == 2) {
         inputFile = fopen(argv[1], "r");
         if(inputFile == NULL) {
-            fprintf(stderr, "main: open file failed\n");
+            fprintf(stderr, "bsh: file failed to open\n");
             exit(-1);
         }
     }
@@ -56,17 +56,17 @@ int main(int argc, char* argv[]) {
     // initialize history struct
     his = calloc(1, sizeof(struct commandHistory));
     if(his == NULL) {
-        fprintf(stderr, "main: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
     his->commands = calloc(HISTORYCAPACITY, sizeof(char *));
     for(int i = 0; i < HISTORYCAPACITY; i++) {
         his->commands[i] = calloc(MAXLENGTH, sizeof(char));
         if(his->commands[i] == NULL)
-            fprintf(stderr, "main: calloc failed\n");
+            fprintf(stderr, "bsh: calloc failed\n");
     }
     if(his->commands == NULL) {
-        fprintf(stderr, "main: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
     his->mostRecentIndex = -1;
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     // give shell variable linked list some space
     shellVarRoot = calloc(1, sizeof(struct shellVariable));
     if(shellVarRoot == NULL) {
-        fprintf(stderr, "main: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
   
@@ -85,20 +85,20 @@ int main(int argc, char* argv[]) {
     redirInfoPtr->mode = -1;
     redirInfoPtr->fname = calloc(MAXLENGTH, sizeof(char));
     if(redirInfoPtr == NULL || redirInfoPtr->fname == NULL) {
-        fprintf(stderr, "main: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
 
     // set initial env variable path
     if(setenv("PATH", "/bin", 1) != 0) {
-        fprintf(stderr, "main: setenv failed\n");
+        fprintf(stderr, "bsh: setenv failed\n");
         exit(-1);
     }
         
     // for storing current command
     char *input = calloc(MAXLENGTH, sizeof(char));
     if(input == NULL) {
-        fprintf(stderr, "main: setenv failed\n");
+        fprintf(stderr, "bsh: setenv failed\n");
         exit(-1);
     }
 
@@ -123,7 +123,7 @@ int main(int argc, char* argv[]) {
                     freeStructMem();   
                     free(input);
                     input = NULL;
-                    fprintf(stderr, "main: fgets failed\n");
+                    fprintf(stderr, "bsh: fgets failed\n");
                     exit(-1);
                 }
             }
@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
                     freeStructMem();   
                     free(input);
                     input = NULL;
-                    fprintf(stderr, "main: fgets failed\n");
+                    fprintf(stderr, "bsh: fgets failed\n");
                     exit(-1);
                 }
             }
@@ -149,19 +149,19 @@ int main(int argc, char* argv[]) {
         // to store an array of string of the current command
         char **current = calloc(MAXARGS, sizeof(char*));
         if(current == NULL) {
-            fprintf(stderr, "main: calloc failed\n");
+            fprintf(stderr, "bsh: calloc failed\n");
             exit(-1);            
         }
         for(int i = 0; i < MAXARGS; i++) {
             current[i] = calloc(MAXLENGTH, sizeof(char));
             if(current[i] == NULL)
-                fprintf(stderr, "main: calloc failed\n");
+                fprintf(stderr, "bsh: calloc failed\n");
         }
         // create a copy of original command line as a single string
         // for adding to history
         char *inputCopy = calloc(MAXLENGTH, sizeof(char));
         if(inputCopy == NULL) {
-            fprintf(stderr, "main: calloc failed\n");
+            fprintf(stderr, "bsh: calloc failed\n");
             exit(-1);
         }
 

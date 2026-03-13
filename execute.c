@@ -52,7 +52,7 @@ int executeCommands(int argc, char** command) {
             if(redirInfoPtr->mode >= 0) {
                 fd = redirect();
                 if(fd < 0) {
-                    fprintf(stderr, "executeCommands: redirect failed\n");
+                    fprintf(stderr, "bsh: redirection failed\n");
                     return -1;
                 }
             }
@@ -73,11 +73,11 @@ int executeCommands(int argc, char** command) {
             if(fd != -1 && redirInfoPtr->mode >= 0) {
                 dup2(redirInfoPtr->fdRestore, redirInfoPtr->fileDes);
                 if(close(fd) < 0) {
-                    fprintf(stderr, "executeCommands: close file failed\n");
+                    fprintf(stderr, "bsh: file failed to close\n");
                     return -1;
                 }
                 if(fcntl(redirInfoPtr->fdRestore, F_GETFD) != -1 && close(redirInfoPtr->fdRestore) < 0) {
-                    fprintf(stderr, "executeCommands: close file failed - 1\n");
+                    fprintf(stderr, "bsh: file failed to close\n");
                     return -1;
                 }
             }
@@ -90,7 +90,7 @@ int executeCommands(int argc, char** command) {
     bool found = false;
     char *pathCopy = calloc(MAXLENGTH, sizeof(char));
     if(pathCopy == NULL) {
-        fprintf(stderr, "executeCommands: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
     // loop through the first argument to find '/'
@@ -112,7 +112,7 @@ int executeCommands(int argc, char** command) {
     // for constructing the string for commands from env path to pass into access()
     char* pathFull = calloc(MAXLENGTH, sizeof(char));
     if(pathFull == NULL) {
-        fprintf(stderr, "executeCommands: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         exit(-1);
     }
         
@@ -147,13 +147,13 @@ int executeCommands(int argc, char** command) {
         if(redirInfoPtr->mode >= 0) {
             char **comWithoutRedir = calloc(MAXARGS+1, sizeof(char*));
             if(comWithoutRedir == NULL) {
-                fprintf(stderr, "executeCommands: calloc failed\n");
+                fprintf(stderr, "bsh: calloc failed\n");
                 exit(-1);
             }
             for(int i = 0; i < argc; i++) {
                 comWithoutRedir[i] = calloc(MAXLENGTH, sizeof(char));
                 if(comWithoutRedir[i] == NULL) {
-                    fprintf(stderr, "executeCommands: calloc failed\n");
+                    fprintf(stderr, "bsh: calloc failed\n");
                     exit(-1);
                 }
                 strcpy(comWithoutRedir[i], command[i]);
@@ -204,7 +204,7 @@ int executeCommands(int argc, char** command) {
     pathFull = NULL;
 
     // if not returned before this, command failed
-    fprintf(stderr, "executeCommands: command doesn't exist\n");
+    fprintf(stderr, "bsh: command not found: %s\n", command[0]);
     return -2;
 
 }
@@ -295,13 +295,13 @@ int launchNewProcess(char* path, char *argv[]) {
         if(redirInfoPtr->mode >= 0) {
             fd = redirect();
             if(fd < 0) {
-                fprintf(stderr, "launchNewProcess: redirect failed\n");
+                fprintf(stderr, "bsh: redirection failed\n");
                 return -1;
             }
         }
 
         if(execv(path, argv) == -1) {
-            fprintf(stderr, "launchNewProcess: execv failed\n");
+            fprintf(stderr, "bsh: execv failed\n");
             return -1;
         }
 
@@ -311,19 +311,19 @@ int launchNewProcess(char* path, char *argv[]) {
             dup2(redirInfoPtr->fdRestore, redirInfoPtr->fileDes);
             // close the file
             if(close(fd) < 0) {
-                fprintf(stderr, "launchNewProcess: close file failed\n");
+                fprintf(stderr, "bsh: file failed to close\n");
                 return -1;
             }
             // then close the backup
             if(fcntl(redirInfoPtr->fdRestore, F_GETFD) != -1 && close(redirInfoPtr->fdRestore) < 0) {
-                fprintf(stderr, "launchNewProcess: close file failed\n");
+                fprintf(stderr, "bsh: file failed to close\n");
                 return -1;
             }
         }
     }
     // error
     else if(pid == -1) {
-        fprintf(stderr, "launchNewProcess: fork failed\n");
+        fprintf(stderr, "bsh: fork failed\n");
         return -1;
     }
     // parent

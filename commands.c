@@ -8,12 +8,12 @@
 int cd(int argc, char *argv[]) {
     
     if(argc != 2) {
-        fprintf(stderr, "cd: argument wrong format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
 
     if(chdir(argv[1]) != 0) {
-        fprintf(stderr, "cd: chdir failed\n");
+        fprintf(stderr, "bsh: chdir failed\n");
         return -1;
     }
     return 1;
@@ -27,13 +27,13 @@ int export(int argc, char *argv[]) {
 
     // can only have 2 arguments
     if(argc != 2) {
-        fprintf(stderr, "export: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
         
     // if the second argument doesn't specify variable name
     if(argv[1][0] == '=') {
-        fprintf(stderr, "export: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
 
@@ -49,7 +49,7 @@ int export(int argc, char *argv[]) {
     }
 
     if(equalSignCount != 1) {
-        fprintf(stderr, "export: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
 
@@ -63,13 +63,13 @@ int export(int argc, char *argv[]) {
 
     // name and value should only at most each be one
     if (index > 2) {
-        fprintf(stderr, "export: wrong argument count\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
 
     // check for '$' to find the value of the variable
     if (varNameAndValue[0][0] == '$') {
-        fprintf(stderr, "export: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
     if (varNameAndValue[1] != NULL && varNameAndValue[1][0] == '$') {
@@ -79,14 +79,14 @@ int export(int argc, char *argv[]) {
     // clear variable if empty string
     if(varNameAndValue[1] == NULL) {
         if(setenv(varNameAndValue[0], "", 1) < 0) {
-            fprintf(stderr, "export: setenv failed\n");
+            fprintf(stderr, "bsh: setenv failed\n");
             return -1;
         }
     }
     else {
         // 1: will overwrite
         if(setenv(varNameAndValue[0], varNameAndValue[1], 1) < 0) {
-            fprintf(stderr, "export: setenv failed\n");
+            fprintf(stderr, "bsh: setenv failed\n");
             return -1;
         }
     }
@@ -102,13 +102,13 @@ int local(int argc, char *argv[]) {
 
     // must have 2 arguments
     if(argc != 2) {
-        fprintf(stderr, "local: wrong argument count\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
         
     // if the second argument doesn't specify variable name
     if(argv[1][0] == '=') {
-        fprintf(stderr, "local: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
         
@@ -124,7 +124,7 @@ int local(int argc, char *argv[]) {
     }
 
     if(equalSignCount != 1) {
-        fprintf(stderr, "local: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
     
@@ -138,7 +138,7 @@ int local(int argc, char *argv[]) {
 
     // check for '$' to find the value of the variable
     if(varNameAndValue[0][0] == '$') {
-        fprintf(stderr, "local: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
     if(varNameAndValue[1] != NULL && varNameAndValue[1][0] == '$') {
@@ -206,7 +206,7 @@ int vars(int argc, char *argv[]) {
     argv = (void*) argv;
 
     if(argc != 1) {
-        fprintf(stderr, "vars: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
         
@@ -246,7 +246,7 @@ int history(int argc, char *argv[]) {
         int newSize = strtol(argv[2], NULL, 10);
 
         if(newSize <= 0) {
-            fprintf(stderr, "history set new size <= 0\n");
+            fprintf(stderr, "bsh: history size <= 0\n");
             return -1;
         }
         else {
@@ -263,14 +263,14 @@ int history(int argc, char *argv[]) {
             // create a new array and copy things over
             char **tempArray = calloc(newSize, sizeof(char *));
             if(tempArray == NULL) {
-                fprintf(stderr, "history set size calloc failed\n");
+                fprintf(stderr, "bsh: calloc failed\n");
                 return -1;
             }
 
             for(int i = 0; i < newSize; i++) {
                 tempArray[i] = calloc(MAXLENGTH, sizeof(char));
                 if(tempArray[i] == NULL) {
-                    fprintf(stderr, "history set size calloc failed\n");
+                    fprintf(stderr, "bsh: calloc failed\n");
                     return -1;
                 }
             }
@@ -302,13 +302,13 @@ int history(int argc, char *argv[]) {
             // the array to store the parts of the command is allocated and freed here
             char **toBeExec = calloc(MAXARGS, sizeof(char*));
             if(toBeExec == NULL) {
-                fprintf(stderr, "history command calloc failed\n");
+                fprintf(stderr, "bsh: calloc failed\n");
                 return -1;
             }
             for(int i = 0; i < MAXARGS; i++) {
                 toBeExec[i] = calloc(MAXLENGTH, sizeof(char));
                 if(toBeExec[i] == NULL) {
-                    fprintf(stderr, "history command calloc failed\n");
+                    fprintf(stderr, "bsh: calloc failed\n");
                     return -1;
                 }
             }
@@ -326,7 +326,7 @@ int history(int argc, char *argv[]) {
             // copy the command into a string so the original one in history won't be affected
             char *currCommand = calloc(MAXLENGTH, sizeof(char));
             if(currCommand == NULL) {
-                fprintf(stderr, "history command calloc failed\n");
+                fprintf(stderr, "bsh: calloc failed\n");
                 return -1;
             }
             strcpy(currCommand, his->commands[index]);
@@ -361,7 +361,7 @@ int ls(int argc, char *argv[]) {
 
     // only one argument is allowed
     if(argc > 1) {
-        fprintf(stderr, "ls: wrong argument format\n");
+        fprintf(stderr, "bsh: wrong argument format\n");
         return -1;
     }
 
@@ -370,7 +370,7 @@ int ls(int argc, char *argv[]) {
 
     char *currDirPath = calloc(MAXLENGTH, sizeof(char));
     if(currDirPath == NULL) {
-        fprintf(stderr, "ls: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         return -1;
     }
     
@@ -380,14 +380,14 @@ int ls(int argc, char *argv[]) {
     // opens a directory stream
     DIR *currDir = opendir(currDirPath);
     if (currDir == NULL) {
-        fprintf(stderr, "ls: opendir failed\n");
+        fprintf(stderr, "bsh: opendir failed\n");
         return -1;
     }
 
     // to store all file names
     char **fileNames = calloc(MAXBUFFER, sizeof(char*));
     if(fileNames == NULL) {
-        fprintf(stderr, "ls: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         return -1;
     }
         
@@ -397,7 +397,7 @@ int ls(int argc, char *argv[]) {
 
     fileNames[count] = calloc(MAXLENGTH, sizeof(char));
     if(fileNames[count] == NULL) {
-        fprintf(stderr, "ls: calloc failed\n");
+        fprintf(stderr, "bsh: calloc failed\n");
         return -1;
     }
     // put the entry name into fileNames array

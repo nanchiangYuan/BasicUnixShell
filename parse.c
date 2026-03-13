@@ -54,13 +54,13 @@ int parseCommand(char** result, char* input) {
             // "&>>"
             if(result[argCount-1][2] == '>') {
                 if(result[argCount-1][3] == '>') {
-                    fprintf(stderr, "parseCommand: argument wrong format\n");
+                    fprintf(stderr, "bsh: wrong argument format\n");
                     return 0;
                 }
                 redirInfoPtr->mode = 4;
                 char *fn = strtok(result[argCount-1], "&>>");
                 if(fn == NULL) {
-                    fprintf(stderr, "parseCommand: argument wrong format\n");
+                    fprintf(stderr, "bsh: wrong argument format\n");
                     return 0;
                 }
                 strcpy(redirInfoPtr->fname, fn);
@@ -71,7 +71,7 @@ int parseCommand(char** result, char* input) {
                 redirInfoPtr->mode = 3;
                 char *fn = strtok(result[argCount-1], "&>");
                 if(fn == NULL) {
-                    fprintf(stderr, "parseCommand: argument wrong format\n");
+                    fprintf(stderr, "bsh: wrong argument format\n");
                     return 0;
                 }
                 strcpy(redirInfoPtr->fname, fn);
@@ -87,7 +87,7 @@ int parseCommand(char** result, char* input) {
             if(result[argCount-1][i] == '<') {
                 // check if there is a second '<' to identify it as an error
                 if(i < length - 1 && result[argCount-1][i+1] == '<') {
-                    fprintf(stderr, "parseCommand: argument wrong format\n");
+                    fprintf(stderr, "bsh: wrong argument format\n");
                     return 0;
                 }
                 redirInfoPtr->mode = 0;
@@ -101,7 +101,7 @@ int parseCommand(char** result, char* input) {
                 if(i == 0) {
                     fn = strtok(result[argCount-1], "<");
                     if(fn == NULL) {
-                        fprintf(stderr, "parseCommand: argument wrong format\n");
+                        fprintf(stderr, "bsh: wrong argument format\n");
                         return 0;
                     }
                     fd = 0;
@@ -110,12 +110,12 @@ int parseCommand(char** result, char* input) {
                     fdStr = strtok(result[argCount-1], "<");
                     fn = strtok(NULL, "<");
                     if(fdStr == NULL || fn == NULL) {
-                        fprintf(stderr, "parseCommand: argument wrong format\n");
+                        fprintf(stderr, "bsh: wrong argument format\n");
                         return 0;
                     }
                     fd = strtol(fdStr, NULL, 10);
                     if(fd == 0 && fdStr[0] != '0') {
-                        fprintf(stderr, "parseCommand: strtol failed\n");
+                        fprintf(stderr, "bsh: strtol failed\n");
                         return 0;
                     }
                 }
@@ -132,7 +132,7 @@ int parseCommand(char** result, char* input) {
                 if(i < length - 1 && result[argCount-1][i+1] == '>') {
                     // check if there is a third '>' to identify it as an error
                     if(i < length - 2 && result[argCount-1][i+2] == '>') {
-                        fprintf(stderr, "parseCommand: argument wrong format\n");
+                        fprintf(stderr, "bsh: wrong argument format\n");
                         return 0;
                     }
 
@@ -146,7 +146,7 @@ int parseCommand(char** result, char* input) {
                     if(i == 0) {
                         fn = strtok(result[argCount-1], ">>");
                         if(fn == NULL) {
-                            fprintf(stderr, "parseCommand: argument wrong format\n");
+                            fprintf(stderr, "bsh: wrong argument format\n");
                             return 0;
                         }
                         fd = 1;
@@ -155,12 +155,12 @@ int parseCommand(char** result, char* input) {
                         fdStr = strtok(result[argCount-1], ">>");
                         fn = strtok(NULL, ">>");
                         if(fdStr == NULL || fn == NULL) {
-                            fprintf(stderr, "parseCommand: argument wrong format\n");
+                            fprintf(stderr, "bsh: wrong argument format\n");
                             return 0;
                         }
                         fd = strtol(fdStr, NULL, 10);
                         if(fd == 0 && fdStr[0] != '0') {
-                            fprintf(stderr, "parseCommand: strtol failed\n");
+                            fprintf(stderr, "bsh: strtol failed\n");
                             return 0;
                         }
                     }
@@ -183,7 +183,7 @@ int parseCommand(char** result, char* input) {
                     if(i == 0) {
                         fn = strtok(result[argCount-1], ">");
                         if(fn == NULL) {
-                            fprintf(stderr, "parseCommand: argument wrong format\n");
+                            fprintf(stderr, "bsh: wrong argument format\n");
                             return 0;
                         }
                         fd = 1;
@@ -192,12 +192,12 @@ int parseCommand(char** result, char* input) {
                         fdStr = strtok(result[argCount-1], ">");
                         fn = strtok(NULL, ">");
                         if(fdStr == NULL || fn == NULL) {
-                            fprintf(stderr, "parseCommand: argument wrong format\n");
+                            fprintf(stderr, "bsh: wrong argument format\n");
                             return 0;
                         }
                         fd = strtol(fdStr, NULL, 10);
                         if(fd == 0 && fdStr[0] != '0') {
-                            fprintf(stderr, "parseCommand: strtol failed\n");
+                            fprintf(stderr, "bsh: strtol failed\n");
                             return 0;
                         }
                     }
