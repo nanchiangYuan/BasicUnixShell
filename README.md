@@ -39,7 +39,7 @@ A lightweight Unix shell implementation written in C, designed to demonstrate co
  + `parse.c`: parses the commands and does variable substitution
  + `execute.c`: executes the commands and deals with redirection and forking
  + `commands.c`: build-in commands and helper functions
- + `bsh.h`: contains constants, data structures, and function signatures
+ + `bsh.h`: contains constants, data structures, and function prototypes
 
 ## Usage
 ### Compile
