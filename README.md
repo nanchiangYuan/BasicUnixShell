@@ -34,6 +34,13 @@ A lightweight Unix shell implementation written in C, designed to demonstrate co
  + **Error Handling**: 
     + Resistant to any possible error conditions including failed syscall, failed commands, bad parameters, etc.
 
+## Project Structure
+ + `main.c`: where the command line loop is run
+ + `parse.c`: parses the commands and does variable substitution
+ + `execute.c`: executes the commands and deals with redirection and forking
+ + `commands.c`: build-in commands and helper functions
+ + `bsh.h`: contains constants, data structures, and function signatures
+
 ## Usage
 ### Compile
 1. On Linux, use `make all` to compile the files. It will create 2 executables, one of which is for debugging.
