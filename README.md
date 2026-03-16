@@ -1,4 +1,4 @@
-# Basic Unix Shell
+# Unix Shell
 
 A lightweight Unix shell implementation written in C, designed to demonstrate core concepts of process management, file descriptor manipulation, and system architecture.
 
